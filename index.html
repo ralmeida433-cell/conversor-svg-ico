@@ -61,6 +61,8 @@ select:focus{outline:none;border-color:var(--primary)}
 .btn-danger{background:linear-gradient(135deg,#ff6584,#cc3355);color:white}
 .btn-full{width:100%}
 .btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-pix{background:linear-gradient(135deg,#32bcad,#1fa295);color:white;font-size:12px;padding:10px 14px}
+.btn-pix:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(50,188,173,.4)}
 
 .main{background:var(--bg);padding:24px;display:flex;flex-direction:column;gap:20px;overflow-y:auto}
 
@@ -101,6 +103,8 @@ canvas{max-width:100%;max-height:500px;border-radius:6px;box-shadow:0 8px 32px r
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:2px;transition:.3s}
 
 .code-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:11px;color:var(--text2);max-height:120px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;line-height:1.5}
+
+.pix-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:monospace;font-size:10px;color:var(--text2);word-break:break-all;line-height:1.4;margin-bottom:8px}
 
 .hidden{display:none!important}
 .mt{margin-top:10px}
@@ -208,6 +212,13 @@ canvas{max-width:100%;max-height:500px;border-radius:6px;box-shadow:0 8px 32px r
     <button class="btn btn-danger btn-full mt" id="btnDownloadIco" disabled>↓ Baixar ICO (multi-size)</button>
   </div>
 
+  <div class="card">
+    <div class="card-title">💛 Gostou? Apoie este projeto!</div>
+    <div class="section-label">Chave PIX</div>
+    <div class="pix-box" id="pixKey">6e7f57f7-d2c7-45f4-8f4f-65bed00bfaed</div>
+    <button class="btn btn-pix btn-full" onclick="copyPix()">📋 Copiar Chave PIX</button>
+  </div>
+
 </aside>
 
 <main class="main">
@@ -297,6 +308,15 @@ function setStep(n){
     if(i===n) s.classList.add('active');
     s.querySelector('.step-num').textContent = i<n?'✓':i;
   }
+}
+
+function copyPix(){
+  const key = $('pixKey').textContent;
+  navigator.clipboard.writeText(key).then(()=>{
+    setStatus('Chave PIX copiada! Obrigado pelo apoio! 💛','success');
+  }).catch(()=>{
+    setStatus('Erro ao copiar. Copie manualmente a chave acima.','error');
+  });
 }
 
 $('fileInput').addEventListener('change', e => loadFile(e.target.files[0]));
