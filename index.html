@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ImageConvert Pro – Remover Fundo, SVG & ICO</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9919912806246142" crossorigin="anonymous"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -398,7 +399,7 @@ $('btnProcess').onclick = async () => {
   rctx.clearRect(0,0,rc.width,rc.height);
   rctx.drawImage(off,0,0);
   rc.classList.remove('hidden');
-  $('emptyResult').classList.add('hidden');
+  $('emptyResult').classList.remove('hidden');
   $('resultInfo').textContent = `${rc.width}×${rc.height}${removeBg?' | fundo removido':''}`;
   processedCanvas = rc;
   setProgress(70);
