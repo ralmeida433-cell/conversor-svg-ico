@@ -3,53 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ImageConvert Pro – Converter SVG, ICO e Remover Fundo de Imagens Online Grátis</title>
-<meta name="description" content="Ferramenta online gratuita para converter imagens SVG/ICO, remover fundo e vetorizar. Rápido, fácil e sem cadastro. Suporta PNG, JPG, GIF, WebP e mais.">
-<meta name="keywords" content="converter svg, converter ico, remover fundo imagem, vetorizar imagem, png para svg, jpg para ico, ferramenta online grátis">
-<meta name="author" content="ImageConvert Pro">
-<meta property="og:title" content="ImageConvert Pro - Converter SVG/ICO e Remover Fundo Grátis">
-<meta property="og:description" content="Converta imagens para SVG/ICO e remova fundos em segundos. Gratuito, rápido e sem cadastro.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://svgico.com.br">
-<link rel="canonical" href="https://svgico.com.br">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9919912806246142" crossorigin="anonymous"></script>
-<script async src="https://fundingchoicesmessages.google.com/i/pub-9919912806246142?ers=1" nonce="NONCE"></script>
-<script nonce="NONCE">(function(){function signalGooglefcPresent(){if(!window.frames['googlefcPresent']){if(document.body){const iframe=document.createElement('iframe');iframe.style='width:0;height:0;border:none;z-index:-1000;left:-1000px;top:-1000px;';iframe.style.display='none';iframe.name='googlefcPresent';document.body.appendChild(iframe);}else{setTimeout(signalGooglefcPresent,0);}}}signalGooglefcPresent();})();</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "ImageConvert Pro",
-  "description": "Ferramenta online gratuita para converter imagens SVG/ICO e remover fundo",
-  "url": "https://svgico.com.br",
-  "applicationCategory": "DesignApplication",
-  "operatingSystem": "Web Browser",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "BRL"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "ratingCount": "2341"
-  }
-}
-</script>
+<title>ImageConvert Pro – Conversor SVG, ICO & Removedor de Fundo Online</title>
+<meta name="description" content="Ferramenta online gratuita para converter imagens SVG/ICO, remover fundo e vetorizar. Rápido, fácil e sem cadastro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --secondary: #ec4899;
-  --bg: #f8fafc;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary: #f43f5e;
+  --bg: #fdfdfd;
   --surface: #ffffff;
-  --text-main: #1e293b;
+  --surface-alt: #f8fafc;
+  --text-main: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
   --success: #10b981;
   --error: #ef4444;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius: 12px;
 }
 
 * {
@@ -59,122 +34,139 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: var(--bg);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Layout Principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 header {
-  background: var(--surface);
-  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 1rem 0;
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .nav-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
 header .logo {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
-.social-proof {
-  display: flex;
-  gap: 1.5rem;
-  font-size: 0.875rem;
+.hero {
+  text-align: center;
+  padding: 4rem 0 3rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.hero p {
   color: var(--text-muted);
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.app {
+/* App Layout */
+.app-grid {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  min-height: calc(100vh - 64px);
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  align-items: start;
 }
 
+/* Sidebar & Cards */
 .sidebar {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 2rem;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-.main {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  overflow-y: auto;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: var(--radius);
   padding: 1.5rem;
-  box-shadow: var(--shadow);
-  transition: box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
 }
 
-.card:hover {
-  box-shadow: var(--shadow-lg);
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.card-num {
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  color: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .card-title {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--text-main);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
+/* Upload Area */
 .upload-zone {
-  border: 2px dashed var(--border);
-  border-radius: 0.75rem;
-  padding: 3rem 1.5rem;
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius);
+  padding: 2.5rem 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--surface-alt);
   position: relative;
-  background: #fdfdfd;
 }
 
-.upload-zone:hover, .upload-zone.drag {
+.upload-zone:hover {
   border-color: var(--primary);
   background: #f5f3ff;
+  transform: translateY(-2px);
 }
 
 .upload-zone .icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
   display: block;
-}
-
-.upload-zone strong {
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
-}
-
-.upload-zone p {
-  font-size: 0.875rem;
-  color: var(--text-muted);
 }
 
 .upload-zone input {
@@ -184,77 +176,82 @@ header .logo {
   cursor: pointer;
 }
 
-.section-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--text-main);
+/* Controls */
+.control-group {
+  margin-bottom: 1.25rem;
 }
 
-.toggle-row {
+.label-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
-.toggle-row label {
+.label-row label {
   font-size: 0.875rem;
-  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .toggle {
   position: relative;
-  width: 44px;
-  height: 24px;
+  width: 40px;
+  height: 22px;
 }
 
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+.toggle input { opacity: 0; width: 0; height: 0; }
 
-.toggle-slider {
+.slider {
   position: absolute;
-  inset: 0;
-  background: #cbd5e1;
-  border-radius: 9999px;
   cursor: pointer;
-  transition: 0.2s;
+  inset: 0;
+  background-color: #e2e8f0;
+  transition: .3s;
+  border-radius: 34px;
 }
 
-.toggle-slider:before {
-  content: '';
+.slider:before {
   position: absolute;
-  height: 18px;
-  width: 18px;
+  content: "";
+  height: 16px;
+  width: 16px;
   left: 3px;
   bottom: 3px;
-  background: white;
+  background-color: white;
+  transition: .3s;
   border-radius: 50%;
-  transition: 0.2s;
 }
 
-.toggle input:checked + .toggle-slider {
-  background: var(--primary);
-}
+input:checked + .slider { background-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(18px); }
 
-.toggle input:checked + .toggle-slider:before {
-  transform: translateX(20px);
-}
-
-input[type=range] {
-  -webkit-appearance: none;
+select, input[type="text"] {
   width: 100%;
-  height: 6px;
-  background: var(--border);
-  border-radius: 9999px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  background-color: white;
   outline: none;
-  margin: 1rem 0;
+  transition: border-color 0.2s;
 }
 
-input[type=range]::-webkit-slider-thumb {
+select:focus, input[type="text"]:focus {
+  border-color: var(--primary);
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 5px;
+  background: #e2e8f0;
+  border-radius: 5px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
@@ -262,341 +259,369 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow);
 }
 
-select {
-  width: 100%;
-  padding: 0.625rem;
-  border-radius: 0.5rem;
+/* Main Area */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.preview-container {
+  background: var(--surface);
   border: 1px solid var(--border);
-  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.preview-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.875rem;
-  color: var(--text-main);
+  font-weight: 600;
+}
+
+.preview-body {
+  padding: 2rem;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+}
+
+#canvasResult {
+  max-width: 100%;
+  max-height: 600px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Status & Buttons */
+.status {
+  padding: 0.875rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
+
+.status.info { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+.status.success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.status.error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
+  border-radius: 10px;
+  font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
-  gap: 0.5rem;
+  gap: 0.625rem;
+  width: 100%;
 }
 
 .btn-primary {
   background: var(--primary);
   color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--primary-hover);
   transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
 }
 
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.btn-secondary {
+.btn-outline {
   background: white;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--text-main);
 }
 
-.btn-secondary:hover {
-  background: #f8fafc;
+.btn-outline:hover {
+  background: var(--surface-alt);
   border-color: #cbd5e1;
 }
 
-.btn-full {
-  width: 100%;
-}
-
-.btn-grid {
+.download-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
 }
 
-.pipeline {
+/* ICO Sizes */
+.ico-grid {
   display: flex;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.step {
-  flex: 1;
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  border-right: 1px solid var(--border);
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-}
-
-.step:last-child {
-  border-right: none;
-}
-
-.step.active {
-  color: var(--primary);
-  background: #f5f3ff;
-}
-
-.step.done {
-  color: var(--success);
-}
-
-.canvas-area {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.canvas-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-
-.canvas-body {
-  padding: 3rem;
-  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
   justify-content: center;
-  align-items: center;
-  min-height: 400px;
-  background-image: 
-    linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
-    linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
-    linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--surface-alt);
+  border-radius: 12px;
 }
 
-canvas {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+.ico-item {
+  text-align: center;
 }
 
-.status {
-  padding: 1rem;
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.status.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-.status.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-.status.error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-
-.faq-section {
-  background: var(--surface);
+.ico-item canvas {
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: var(--shadow);
+  border-radius: 6px;
+  background: white;
+  display: block;
+  margin: 0 auto 0.5rem;
 }
 
-.faq-section h2 {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-main);
-}
-
-.faq-item {
-  margin-bottom: 1.5rem;
-}
-
-.faq-question {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.faq-answer {
+.ico-item span {
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-muted);
-  font-size: 0.875rem;
+}
+
+/* FAQ */
+.faq {
+  margin-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.faq h2 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.faq-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  color: #1e293b;
+}
+
+.faq-card p {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    order: 2;
+  }
+  .main-content {
+    order: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 2rem; }
+  .preview-body { min-height: 300px; padding: 1rem; }
+  .container { padding: 0 1rem; }
+  .download-grid { grid-template-columns: 1fr; }
 }
 
 .hidden { display: none !important; }
-
-@media (max-width: 1024px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
-}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">ImageConvert Pro</div>
-  <div class="social-proof">
-    <span>✨ 2.3k+ usuários hoje</span>
-    <span>🔒 100% Seguro & Privado</span>
+  <div class="container nav-content">
+    <div class="logo">ImageConvert Pro</div>
+    <div style="font-size: 0.75rem; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 4px;">
+      <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block;"></span>
+      SISTEMA ONLINE
+    </div>
   </div>
 </header>
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="card">
-      <div class="card-title">1. Entrada</div>
-      <div class="upload-zone" id="dropZone">
-        <span class="icon">📁</span>
-        <strong>Clique ou arraste</strong>
-        <p>PNG, JPG, WebP ou SVG</p>
-        <input type="file" id="fileInput" accept="image/*">
-      </div>
-      <div id="fileInfo" class="hidden" style="margin-top:1rem; font-size:0.875rem;">
-        <p id="fileNameDisplay" style="font-weight:600;"></p>
-        <p id="fileSizeDisplay" style="color:var(--text-muted);"></p>
-      </div>
-    </div>
+<div class="container">
+  <section class="hero">
+    <h1>Transforme suas imagens em segundos</h1>
+    <p>Converta para SVG, crie arquivos ICO multi-tamanho e remova fundos com inteligência local diretamente no seu navegador.</p>
+  </section>
 
-    <div class="card">
-      <div class="card-title">2. Ajustes</div>
-      
-      <div class="toggle-row">
-        <label>Remover Fundo</label>
-        <label class="toggle">
-          <input type="checkbox" id="enableBgRemoval" checked>
-          <span class="toggle-slider"></span>
-        </label>
+  <div class="app-grid">
+    <aside class="sidebar">
+      <!-- Passo 1: Upload -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num">1</div>
+          <div class="card-title">Upload</div>
+        </div>
+        <div class="upload-zone" id="dropZone">
+          <span class="icon">✨</span>
+          <p><strong>Arraste sua imagem</strong></p>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">PNG, JPG, WebP ou SVG</p>
+          <input type="file" id="fileInput" accept="image/*">
+        </div>
+        <div id="fileInfo" class="hidden" style="margin-top: 1rem; padding: 0.75rem; background: var(--surface-alt); border-radius: 8px; font-size: 0.8125rem;">
+          <p id="fileNameDisplay" style="font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+          <p id="fileSizeDisplay" style="color: var(--text-muted);"></p>
+        </div>
       </div>
 
-      <div id="bgOptions">
-        <div class="section-label">Método</div>
-        <select id="bgMethod">
-          <option value="white">Fundo Branco</option>
-          <option value="dark">Fundo Escuro</option>
-          <option value="flood">Preenchimento (Bordas)</option>
-          <option value="fuzzy" selected>Fuzzy (Global)</option>
-          <option value="custom">Cor Personalizada</option>
-        </select>
+      <!-- Passo 2: Configurações -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num">2</div>
+          <div class="card-title">Ajustes</div>
+        </div>
+        
+        <div class="control-group">
+          <div class="label-row">
+            <label>Remover Fundo</label>
+            <label class="toggle">
+              <input type="checkbox" id="enableBgRemoval" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div id="bgOptions">
+            <select id="bgMethod" style="margin-top: 0.5rem;">
+              <option value="fuzzy" selected>Fuzzy (Recomendado)</option>
+              <option value="flood">Bordas (Flood Fill)</option>
+              <option value="white">Fundo Branco</option>
+              <option value="dark">Fundo Escuro</option>
+              <option value="custom">Cor Personalizada</option>
+            </select>
 
-        <div id="customColorRow" class="hidden">
-          <div class="section-label">Escolher Cor</div>
-          <div style="display:flex; gap:0.5rem;">
-            <input type="color" id="customColor" value="#ffffff" style="height:38px; width:60px;">
-            <input type="text" id="customColorHex" value="#ffffff" style="flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:0.5rem;">
+            <div id="customColorRow" class="hidden" style="margin-top: 0.75rem;">
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="color" id="customColor" value="#ffffff" style="width: 45px; height: 38px; padding: 2px; border: 1px solid var(--border); border-radius: 6px;">
+                <input type="text" id="customColorHex" value="#ffffff" placeholder="#HEX">
+              </div>
+            </div>
+
+            <div style="margin-top: 1rem;">
+              <div class="label-row">
+                <label style="font-size: 0.75rem; color: var(--text-muted);">Tolerância</label>
+                <span id="tolDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">30</span>
+              </div>
+              <input type="range" id="tolerance" min="1" max="150" value="30">
+            </div>
+
+            <div class="label-row" style="margin-top: 1rem;">
+              <label style="font-size: 0.8125rem;">Suavizar Bordas</label>
+              <label class="toggle">
+                <input type="checkbox" id="smoothEdges" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <div class="section-label">Tolerância: <span id="tolDisplay">30</span></div>
-        <input type="range" id="tolerance" min="1" max="150" value="30">
+        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border);">
 
-        <div class="toggle-row">
-          <label>Suavizar Bordas</label>
-          <label class="toggle">
-            <input type="checkbox" id="smoothEdges" checked>
-            <span class="toggle-slider"></span>
-          </label>
+        <div class="control-group">
+          <div class="label-row">
+            <label>Vetorizar (SVG)</label>
+            <label class="toggle">
+              <input type="checkbox" id="enableVectorize">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div id="vectorOptions" style="opacity: 0.4; pointer-events: none; margin-top: 0.5rem;">
+            <select id="svgScale">
+              <option value="512">512 px (Pequeno)</option>
+              <option value="1024" selected>1024 px (Padrão)</option>
+              <option value="2048">2048 px (Alta Res)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btnProcess" disabled style="margin-top: 1rem;">
+          Processar Agora
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div id="statusBox" class="status info">
+        <span id="statusIcon">ℹ️</span>
+        <div id="statusText">Aguardando imagem para iniciar...</div>
+      </div>
+
+      <div class="preview-container">
+        <div class="preview-header">
+          <span>Visualização em Tempo Real</span>
+          <span id="resultInfo" style="color: var(--text-muted); font-weight: 400;">0 x 0 px</span>
+        </div>
+        <div class="preview-body">
+          <div id="emptyOrig" style="text-align: center; color: var(--text-muted);">
+            <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">🖼️</div>
+            <p style="font-weight: 600;">Nenhuma imagem carregada</p>
+            <p style="font-size: 0.8125rem;">Seu preview aparecerá aqui</p>
+          </div>
+          <canvas id="canvasResult" class="hidden"></canvas>
         </div>
       </div>
 
-      <hr style="margin:1rem 0; border:0; border-top:1px solid var(--border);">
-
-      <div class="toggle-row">
-        <label>Vetorizar (SVG)</label>
-        <label class="toggle">
-          <input type="checkbox" id="enableVectorize">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div id="vectorOptions" style="opacity:0.4;">
-        <div class="section-label">Algoritmo</div>
-        <select id="vectorAlgo">
-          <option value="trace">Trace (Contornos)</option>
-          <option value="color">Color Blocks (Pixel Art)</option>
-          <option value="embed">Embed (Original)</option>
-        </select>
-        <div class="section-label">Tamanho Base (px)</div>
-        <select id="svgScale">
-          <option value="512">512 px</option>
-          <option value="1024" selected>1024 px</option>
-          <option value="2048">2048 px</option>
-        </select>
-      </div>
-    </div>
-
-    <button class="btn btn-primary btn-full" id="btnProcess" disabled>
-      <span>🚀</span> Processar Imagem
-    </button>
-  </aside>
-
-  <main class="main">
-    <div class="pipeline">
-      <div class="step active" id="step1">1. Upload</div>
-      <div class="step" id="step2">2. Ajuste</div>
-      <div class="step" id="step3">3. Preview</div>
-      <div class="step" id="step4">4. Download</div>
-    </div>
-
-    <div id="statusBox" class="status info">
-      <span>ℹ️</span>
-      <div id="statusText">Carregue uma imagem para começar.</div>
-    </div>
-
-    <div class="canvas-area">
-      <div class="canvas-header">
-        <span>Visualização</span>
-        <span id="resultInfo" style="color:var(--text-muted);">Aguardando...</span>
-      </div>
-      <div class="canvas-body">
-        <div id="emptyOrig" class="empty-state">
-          <div style="font-size:4rem; opacity:0.2; margin-bottom:1rem;">🖼️</div>
-          <p style="color:var(--text-muted);">Sua imagem aparecerá aqui</p>
+      <div class="card hidden" id="outputCard">
+        <div class="card-header">
+          <div class="card-num">3</div>
+          <div class="card-title">Download</div>
         </div>
-        <canvas id="canvasResult" class="hidden"></canvas>
+        <div class="download-grid">
+          <button class="btn btn-outline" id="btnDownloadPng">Baixar PNG</button>
+          <button class="btn btn-outline" id="btnDownloadIco">Baixar ICO</button>
+          <button class="btn btn-outline" id="btnDownloadSvg" disabled>Baixar SVG</button>
+        </div>
+        <div id="icoArea" class="hidden">
+          <div class="ico-grid" id="sizesGrid"></div>
+        </div>
       </div>
-    </div>
+    </main>
+  </div>
 
-    <div class="card hidden" id="icoArea">
-      <div class="card-title">Formatos de Saída</div>
-      <div class="btn-grid">
-        <button class="btn btn-secondary" id="btnDownloadPng">Baixar PNG</button>
-        <button class="btn btn-secondary" id="btnDownloadIco">Baixar ICO (Multi-size)</button>
-        <button class="btn btn-secondary" id="btnDownloadSvg" disabled>Baixar SVG</button>
+  <section class="faq">
+    <h2>Dúvidas Frequentes</h2>
+    <div class="faq-grid">
+      <div class="faq-card">
+        <h3>É realmente gratuito?</h3>
+        <p>Sim! O ImageConvert Pro é uma ferramenta 100% gratuita e sem limites de uso diário.</p>
       </div>
-      <div id="sizesGrid" style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap; justify-content:center;"></div>
-    </div>
-
-    <div class="faq-section">
-      <h2>Perguntas Frequentes</h2>
-      <div class="faq-item">
-        <div class="faq-question">Quais formatos são suportados?</div>
-        <div class="faq-answer">Suportamos PNG, JPG, JPEG, GIF, WebP, BMP e SVG.</div>
+      <div class="faq-card">
+        <h3>E a minha privacidade?</h3>
+        <p>Segurança total. Todo o processamento ocorre no seu navegador. Suas fotos nunca saem do seu computador.</p>
       </div>
-      <div class="faq-item">
-        <div class="faq-question">Meus dados estão seguros?</div>
-        <div class="faq-answer">Sim, todo o processamento é feito localmente no seu navegador. Suas imagens nunca são enviadas para nossos servidores.</div>
+      <div class="faq-card">
+        <h3>Como funciona o ICO?</h3>
+        <p>Nosso conversor gera um único arquivo .ico contendo 6 tamanhos diferentes (16px a 256px), ideal para Windows e Web.</p>
       </div>
     </div>
-  </main>
+  </section>
 </div>
 
 <canvas id="offscreen" class="hidden"></canvas>
@@ -606,8 +631,9 @@ const $ = id => document.getElementById(id);
 let origImage = null;
 let processedCanvas = null;
 let svgContent = '';
-let fileName = 'image';
+let fileName = 'imagem';
 
+// Upload Logic
 $('fileInput').onchange = e => {
   const file = e.target.files[0];
   if(!file) return;
@@ -626,8 +652,8 @@ $('fileInput').onchange = e => {
       $('fileNameDisplay').textContent = file.name;
       $('fileSizeDisplay').textContent = `${(file.size/1024).toFixed(1)} KB | ${origImage.width}x${origImage.height}px`;
       $('btnProcess').disabled = false;
-      setStatus('Imagem carregada! Clique em "Processar" para aplicar os ajustes.','success');
-      setStep(2);
+      setStatus('Imagem carregada com sucesso!', 'success');
+      $('resultInfo').textContent = `${origImage.width} x ${origImage.height} px`;
     };
     origImage.src = event.target.result;
   };
@@ -638,23 +664,30 @@ function setStatus(txt, type) {
   const box = $('statusBox');
   box.className = `status ${type}`;
   $('statusText').textContent = txt;
+  $('statusIcon').textContent = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
 }
 
-function setStep(n) {
-  for(let i=1; i<=4; i++) {
-    $('step'+i).className = 'step' + (i<n ? ' done' : (i===n ? ' active' : ''));
-  }
-}
-
+// UI Controls
 $('tolerance').oninput = () => $('tolDisplay').textContent = $('tolerance').value;
 $('bgMethod').onchange = () => $('customColorRow').classList.toggle('hidden', $('bgMethod').value !== 'custom');
-$('enableBgRemoval').onchange = () => $('bgOptions').style.opacity = $('enableBgRemoval').checked ? 1 : 0.4;
-$('enableVectorize').onchange = () => $('vectorOptions').style.opacity = $('enableVectorize').checked ? 1 : 0.4;
+$('enableBgRemoval').onchange = () => {
+  const active = $('enableBgRemoval').checked;
+  $('bgOptions').style.opacity = active ? 1 : 0.4;
+  $('bgOptions').style.pointerEvents = active ? 'auto' : 'none';
+};
+$('enableVectorize').onchange = () => {
+  const active = $('enableVectorize').checked;
+  $('vectorOptions').style.opacity = active ? 1 : 0.4;
+  $('vectorOptions').style.pointerEvents = active ? 'auto' : 'none';
+};
 
+// Processing Logic
 $('btnProcess').onclick = async () => {
   if(!origImage) return;
-  setStatus('Processando imagem...', 'info');
-  await new Promise(r => setTimeout(r, 500));
+  setStatus('Processando... Aguarde um instante.', 'info');
+  $('btnProcess').disabled = true;
+  
+  await new Promise(r => setTimeout(r, 400));
 
   const removeBg = $('enableBgRemoval').checked;
   const vectorize = $('enableVectorize').checked;
@@ -678,12 +711,15 @@ $('btnProcess').onclick = async () => {
   if(vectorize) {
     svgContent = vectorizeCanvas(off, off.width, off.height);
     $('btnDownloadSvg').disabled = false;
+  } else {
+    $('btnDownloadSvg').disabled = true;
   }
 
   generateIcoPreviews();
+  $('outputCard').classList.remove('hidden');
   $('icoArea').classList.remove('hidden');
-  setStatus('Concluído! Você já pode baixar seus arquivos.', 'success');
-  setStep(4);
+  $('btnProcess').disabled = false;
+  setStatus('Processamento concluído!', 'success');
 };
 
 function removeBackground(ctx, w, h) {
@@ -709,7 +745,7 @@ function removeBackground(ctx, w, h) {
   for(let i=0; i<d.length; i+=4) {
     const dist = getDist(i, tr, tg, tb);
     if(dist <= tol) d[i+3] = 0;
-    else if(smooth && dist <= tol*1.5) d[i+3] = Math.round(255 * (dist-tol)/(tol*0.5));
+    else if(smooth && dist <= tol*1.4) d[i+3] = Math.round(255 * (dist-tol)/(tol*0.4));
   }
   ctx.putImageData(imgData, 0, 0);
 }
@@ -729,18 +765,17 @@ function generateIcoPreviews() {
     tmp.width = sz; tmp.height = sz;
     tmp.getContext('2d').drawImage(processedCanvas, 0, 0, sz, sz);
     const wrap = document.createElement('div');
-    wrap.style.textAlign = 'center';
-    tmp.style.border = '1px solid var(--border)';
-    tmp.style.borderRadius = '4px';
-    const lbl = document.createElement('div');
-    lbl.textContent = `${sz}x${sz}`;
-    lbl.style.fontSize = '10px';
-    lbl.style.marginTop = '4px';
+    wrap.className = 'ico-item';
+    tmp.style.width = Math.max(sz, 24) + 'px';
+    tmp.style.height = Math.max(sz, 24) + 'px';
+    const lbl = document.createElement('span');
+    lbl.textContent = `${sz}px`;
     wrap.appendChild(tmp); wrap.appendChild(lbl);
     grid.appendChild(wrap);
   });
 }
 
+// Downloads
 $('btnDownloadPng').onclick = () => {
   processedCanvas.toBlob(blob => triggerDownload(URL.createObjectURL(blob), fileName+'.png'));
 };
