@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ImageConvert Pro – Conversor SVG, ICO & Removedor de Fundo Online</title>
-<meta name="description" content="Ferramenta online gratuita para converter imagens SVG/ICO, remover fundo e vetorizar. Rápido, fácil e sem cadastro.">
+<title>ImageConvert Pro – Conversor SVG, ICO & Qualidade Pro Online</title>
+<meta name="description" content="Ferramenta online gratuita para converter imagens SVG/ICO, remover fundo, aumentar resolução e nitidez. Rápido, fácil e sem cadastro.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -88,7 +88,6 @@ header .logo {
   letter-spacing: -0.02em;
 }
 
-/* Theme Toggle Button */
 .theme-toggle {
   background: var(--surface-alt);
   border: 1px solid var(--border);
@@ -494,6 +493,7 @@ input[type="range"]::-webkit-slider-thumb {
 
   <div class="app-grid">
     <aside class="sidebar">
+      <!-- Passo 1: Upload -->
       <div class="card">
         <div class="card-header">
           <div class="card-num">1</div>
@@ -511,12 +511,38 @@ input[type="range"]::-webkit-slider-thumb {
         </div>
       </div>
 
+      <!-- Passo 2: Qualidade e Ajustes -->
       <div class="card">
         <div class="card-header">
           <div class="card-num">2</div>
-          <div class="card-title">Ajustes</div>
+          <div class="card-title">Melhorias & Ajustes</div>
         </div>
         
+        <!-- Novo: Aumento de Resolução -->
+        <div class="control-group">
+          <div class="label-row">
+            <label>Aumentar Resolução</label>
+            <span id="scaleDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">1x</span>
+          </div>
+          <select id="upscaleFactor">
+            <option value="1">Original (1x)</option>
+            <option value="1.5">Nítido (1.5x)</option>
+            <option value="2">Alta Definição (2x)</option>
+            <option value="4">Ultra HD (4x)</option>
+          </select>
+        </div>
+
+        <!-- Novo: Nitidez (Sharpening) -->
+        <div class="control-group">
+          <div class="label-row">
+            <label>Nitidez (Sharpness)</label>
+            <span id="sharpDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0%</span>
+          </div>
+          <input type="range" id="sharpness" min="0" max="100" value="0">
+        </div>
+
+        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border);">
+
         <div class="control-group">
           <div class="label-row">
             <label>Remover Fundo</label>
@@ -627,16 +653,16 @@ input[type="range"]::-webkit-slider-thumb {
     <h2>Dúvidas Frequentes</h2>
     <div class="faq-grid">
       <div class="faq-card">
-        <h3>É realmente gratuito?</h3>
-        <p>Sim! O ImageConvert Pro é uma ferramenta 100% gratuita e sem limites de uso diário.</p>
+        <h3>Como funciona o aumento de resolução?</h3>
+        <p>Utilizamos algoritmos de interpolação avançados no navegador para aumentar o tamanho da imagem preservando detalhes.</p>
       </div>
       <div class="faq-card">
-        <h3>E a minha privacidade?</h3>
-        <p>Segurança total. Todo o processamento ocorre no seu navegador. Suas fotos nunca saem do seu computador.</p>
+        <h3>O que é o ajuste de nitidez?</h3>
+        <p>O Sharpening realça as bordas e contrastes da imagem, tornando-a mais definida, ideal para fotos levemente embaçadas.</p>
       </div>
       <div class="faq-card">
-        <h3>Como funciona o ICO?</h3>
-        <p>Nosso conversor gera um único arquivo .ico contendo 6 tamanhos diferentes (16px a 256px), ideal para Windows e Web.</p>
+        <h3>Meus dados estão seguros?</h3>
+        <p>Sim! Todo o processamento, incluindo a melhoria de qualidade, é feito localmente. Suas fotos nunca são enviadas para servidores.</p>
       </div>
     </div>
   </section>
@@ -664,7 +690,6 @@ themeToggle.onclick = () => {
   localStorage.setItem('theme', newTheme);
 };
 
-// Load saved theme
 const savedTheme = localStorage.getItem('theme') || 'light';
 html.setAttribute('data-theme', savedTheme);
 themeIcon.textContent = savedTheme === 'light' ? '🌙' : '☀️';
@@ -705,6 +730,9 @@ function setStatus(txt, type) {
 
 // UI Controls
 $('tolerance').oninput = () => $('tolDisplay').textContent = $('tolerance').value;
+$('sharpness').oninput = () => $('sharpDisplay').textContent = $('sharpness').value + '%';
+$('upscaleFactor').onchange = () => $('scaleDisplay').textContent = $('upscaleFactor').value + 'x';
+
 $('bgMethod').onchange = () => $('customColorRow').classList.toggle('hidden', $('bgMethod').value !== 'custom');
 $('enableBgRemoval').onchange = () => {
   const active = $('enableBgRemoval').checked;
@@ -720,32 +748,48 @@ $('enableVectorize').onchange = () => {
 // Processing Logic
 $('btnProcess').onclick = async () => {
   if(!origImage) return;
-  setStatus('Processando... Aguarde um instante.', 'info');
+  setStatus('Processando e otimizando imagem...', 'info');
   $('btnProcess').disabled = true;
   
   await new Promise(r => setTimeout(r, 400));
 
   const removeBg = $('enableBgRemoval').checked;
   const vectorize = $('enableVectorize').checked;
+  const upscale = parseFloat($('upscaleFactor').value);
+  const sharpVal = parseInt($('sharpness').value) / 100;
   
   const off = $('offscreen');
-  off.width = origImage.width;
-  off.height = origImage.height;
+  const targetW = Math.round(origImage.width * upscale);
+  const targetH = Math.round(origImage.height * upscale);
+  
+  off.width = targetW;
+  off.height = targetH;
   const octx = off.getContext('2d');
-  octx.drawImage(origImage, 0, 0);
+  
+  // High quality upscaling
+  octx.imageSmoothingEnabled = true;
+  octx.imageSmoothingQuality = 'high';
+  octx.drawImage(origImage, 0, 0, targetW, targetH);
 
+  // Apply Sharpening if needed
+  if(sharpVal > 0) {
+    applySharpen(octx, targetW, targetH, sharpVal);
+  }
+
+  // Background Removal on upscaled image
   if(removeBg) {
-    removeBackground(octx, off.width, off.height);
+    removeBackground(octx, targetW, targetH);
   }
 
   const rc = $('canvasResult');
-  rc.width = off.width;
-  rc.height = off.height;
+  rc.width = targetW;
+  rc.height = targetH;
   rc.getContext('2d').drawImage(off, 0, 0);
   processedCanvas = rc;
+  $('resultInfo').textContent = `${targetW} x ${targetH} px`;
 
   if(vectorize) {
-    svgContent = vectorizeCanvas(off, off.width, off.height);
+    svgContent = vectorizeCanvas(off, targetW, targetH);
     $('btnDownloadSvg').disabled = false;
   } else {
     $('btnDownloadSvg').disabled = true;
@@ -755,8 +799,48 @@ $('btnProcess').onclick = async () => {
   $('outputCard').classList.remove('hidden');
   $('icoArea').classList.remove('hidden');
   $('btnProcess').disabled = false;
-  setStatus('Processamento concluído!', 'success');
+  setStatus('Otimização concluída!', 'success');
 };
+
+function applySharpen(ctx, w, h, mix) {
+  const weights = [0, -1, 0, -1, 5, -1, 0, -1, 0];
+  const katet = Math.round(Math.sqrt(weights.length));
+  const half = (katet * 0.5) | 0;
+  const imgData = ctx.getImageData(0, 0, w, h);
+  const dstData = ctx.createImageData(w, h);
+  const src = imgData.data;
+  const dst = dstData.data;
+
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const sy = y;
+      const sx = x;
+      const dstOff = (y * w + x) * 4;
+      let r = 0, g = 0, b = 0;
+
+      for (let cy = 0; cy < katet; cy++) {
+        for (let cx = 0; cx < katet; cx++) {
+          const scy = sy + cy - half;
+          const scx = sx + cx - half;
+          if (scy >= 0 && scy < h && scx >= 0 && scx < w) {
+            const srcOff = (scy * w + scx) * 4;
+            const wt = weights[cy * katet + cx];
+            r += src[srcOff] * wt;
+            g += src[srcOff + 1] * wt;
+            b += src[srcOff + 2] * wt;
+          }
+        }
+      }
+      
+      // Mix with original based on intensity
+      dst[dstOff] = src[dstOff] * (1 - mix) + r * mix;
+      dst[dstOff + 1] = src[dstOff + 1] * (1 - mix) + g * mix;
+      dst[dstOff + 2] = src[dstOff + 2] * (1 - mix) + b * mix;
+      dst[dstOff + 3] = src[dstOff + 3];
+    }
+  }
+  ctx.putImageData(dstData, 0, 0);
+}
 
 function removeBackground(ctx, w, h) {
   const method = $('bgMethod').value;
@@ -813,7 +897,7 @@ function generateIcoPreviews() {
 
 // Downloads
 $('btnDownloadPng').onclick = () => {
-  processedCanvas.toBlob(blob => triggerDownload(URL.createObjectURL(blob), fileName+'.png'));
+  processedCanvas.toBlob(blob => triggerDownload(URL.createObjectURL(blob), fileName+'.png'), 'image/png');
 };
 
 $('btnDownloadSvg').onclick = () => {
