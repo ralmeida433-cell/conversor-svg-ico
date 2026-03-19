@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /ads.txt
+
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /*.json$
+
+Sitemap: https://svgico.com.br/sitemap.xml
