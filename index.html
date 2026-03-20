@@ -1047,9 +1047,68 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .badge-avif  { background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
 .badge-new   { background: rgba(245,158,11,0.12);  color: #d97706; border: 1px solid rgba(245,158,11,0.3); }
+
+/* ══════════════════════
+   TOOLTIP SYSTEM
+══════════════════════ */
+#icp-tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 240px;
+  background: var(--text-main);
+  color: var(--bg);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  font-weight: 400;
+  padding: 0.6rem 0.85rem;
+  border-radius: 9px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(4px);
+}
+#icp-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#icp-tooltip strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+  color: var(--bg);
+}
+#icp-tooltip::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  width: 10px; height: 10px;
+  background: var(--text-main);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+#icp-tooltip.tip-above::after {
+  top: auto;
+  bottom: -5px;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+[data-tip] { cursor: inherit; }
+[data-tip].filter-btn,
+[data-tip].rotate-btn,
+[data-tip].aspect-btn,
+[data-tip].btn-crop-confirm,
+[data-tip].btn-crop-cancel,
+[data-tip].btn-reset,
+[data-tip].dpi-preset-btn,
+[data-tip].resize-unit-btn,
+[data-tip].undo-btn,
+[data-tip].preview-tab,
+[data-tip].btn { cursor: pointer; }
 </style>
 </head>
 <body>
+<div id="icp-tooltip"></div>
 
 <header>
   <div class="container nav-content">
@@ -1080,7 +1139,7 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="card-num">1</div>
           <div class="card-title">Upload</div>
         </div>
-        <div class="upload-zone" id="dropZone">
+        <div class="upload-zone" id="dropZone" data-tip="Carregar imagem|Clique aqui ou arraste uma foto do seu computador. Aceita PNG, JPG, WebP e SVG.">
           <span class="icon">✨</span>
           <p><strong>Arraste sua imagem</strong></p>
           <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">PNG, JPG, WebP ou SVG</p>
@@ -1108,7 +1167,7 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content active">
             <div class="control-group">
               <div class="label-row">
-                <label>Brilho</label>
+                <label data-tip="Brilho|Deixa a imagem mais clara (direita) ou mais escura (esquerda). Ideal para fotos tiradas com pouca luz.">Brilho</label>
                 <span id="brightnessDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0%</span>
               </div>
               <input type="range" id="brightness" min="-100" max="100" value="0">
@@ -1116,7 +1175,7 @@ input[type="range"]::-webkit-slider-thumb {
 
             <div class="control-group">
               <div class="label-row">
-                <label>Contraste</label>
+                <label data-tip="Contraste|Aumenta a diferença entre as partes claras e escuras. Fotos 'lavadas' ficam mais vibrantes com mais contraste.">Contraste</label>
                 <span id="contrastDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0%</span>
               </div>
               <input type="range" id="contrast" min="-100" max="100" value="0">
@@ -1124,7 +1183,7 @@ input[type="range"]::-webkit-slider-thumb {
 
             <div class="control-group">
               <div class="label-row">
-                <label>Saturação</label>
+                <label data-tip="Saturação|Controla a intensidade das cores. Para a direita as cores ficam mais vivas; para a esquerda a imagem fica mais acinzentada.">Saturação</label>
                 <span id="saturationDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0%</span>
               </div>
               <input type="range" id="saturation" min="-100" max="100" value="0">
@@ -1140,12 +1199,12 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
           <div class="collapsible-content active">
             <div class="filter-buttons">
-              <button class="filter-btn" id="filterBw" onclick="applyFilter('bw')">⚫ Preto & Branco</button>
-              <button class="filter-btn" id="filterSepia" onclick="applyFilter('sepia')">🟤 Sépia</button>
-              <button class="filter-btn" id="filterInvert" onclick="applyFilter('invert')">🔄 Inverter</button>
-              <button class="filter-btn" id="filterBlur" onclick="applyFilter('blur')">💫 Desfoque Leve</button>
+              <button class="filter-btn" id="filterBw" onclick="applyFilter('bw')" data-tip="Preto & Branco|Remove todas as cores da imagem. Ótimo para fotos artísticas ou documentos.">⚫ Preto & Branco</button>
+              <button class="filter-btn" id="filterSepia" onclick="applyFilter('sepia')" data-tip="Sépia|Dá um tom marrom-amarelado, como fotos antigas. Ideal para efeito retrô ou vintage.">🟤 Sépia</button>
+              <button class="filter-btn" id="filterInvert" onclick="applyFilter('invert')" data-tip="Inverter cores|Troca cada cor pelo seu oposto (como um negativo de filme fotográfico). Útil para criar efeitos criativos.">🔄 Inverter</button>
+              <button class="filter-btn" id="filterBlur" onclick="applyFilter('blur')" data-tip="Desfoque Leve|Suaviza a imagem levemente. Pode ajudar a esconder imperfeições ou criar um efeito mais suave.">💫 Desfoque Leve</button>
             </div>
-            <button class="btn-reset" onclick="resetFilters()" style="margin-top: 0.75rem;">↺ Resetar Tudo</button>
+            <button class="btn-reset" onclick="resetFilters()" style="margin-top: 0.75rem;" data-tip="Resetar Tudo|Volta todos os ajustes de cor e filtros ao valor original, como se nenhuma edição tivesse sido feita.">↺ Resetar Tudo</button>
           </div>
         </div>
 
@@ -1158,7 +1217,7 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content active">
             <div class="control-group">
               <div class="label-row">
-                <label>Aumentar Resolução</label>
+                <label data-tip="Aumentar Resolução|Amplia a imagem para ficar maior sem perder qualidade. Use 2x para impressão ou 4x para imagens muito pequenas.">Aumentar Resolução</label>
                 <span id="scaleDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">1x</span>
               </div>
               <select id="upscaleFactor">
@@ -1171,7 +1230,7 @@ input[type="range"]::-webkit-slider-thumb {
 
             <div class="control-group">
               <div class="label-row">
-                <label>Nitidez (Sharpness)</label>
+                <label data-tip="Nitidez|Realça os detalhes e bordas da imagem, deixando-a mais nítida. Útil para imagens levemente borradas ou depois de aumentar a resolução.">Nitidez (Sharpness)</label>
                 <span id="sharpDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0%</span>
               </div>
               <input type="range" id="sharpness" min="0" max="100" value="0">
@@ -1188,18 +1247,18 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content active">
             <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">Proporções pré-definidas:</p>
             <div class="aspect-btns">
-              <button class="aspect-btn" onclick="setCropAspect('free')">Livre</button>
-              <button class="aspect-btn" onclick="setCropAspect(1)">1:1</button>
-              <button class="aspect-btn" onclick="setCropAspect(16/9)">16:9</button>
-              <button class="aspect-btn" onclick="setCropAspect(4/3)">4:3</button>
-              <button class="aspect-btn" onclick="setCropAspect(3/2)">3:2</button>
-              <button class="aspect-btn" onclick="setCropAspect(9/16)">9:16</button>
+              <button class="aspect-btn" onclick="setCropAspect('free')" data-tip="Livre|Você desenha o recorte em qualquer tamanho e formato que quiser, sem restrição.">Livre</button>
+              <button class="aspect-btn" onclick="setCropAspect(1)" data-tip="Quadrado (1:1)|Recorta em formato quadrado. Perfeito para fotos de perfil em redes sociais.">1:1</button>
+              <button class="aspect-btn" onclick="setCropAspect(16/9)" data-tip="Widescreen (16:9)|Proporção de tela de TV e YouTube. Ideal para thumbnails de vídeo.">16:9</button>
+              <button class="aspect-btn" onclick="setCropAspect(4/3)" data-tip="Foto clássica (4:3)|Proporção de câmeras fotográficas e apresentações. Bom para fotos gerais.">4:3</button>
+              <button class="aspect-btn" onclick="setCropAspect(3/2)" data-tip="Foto profissional (3:2)|Proporção usada por câmeras DSLR. Padrão para impressão em 10x15 cm.">3:2</button>
+              <button class="aspect-btn" onclick="setCropAspect(9/16)" data-tip="Vertical (9:16)|Formato de Stories do Instagram e Reels. Para conteúdo de celular na vertical.">9:16</button>
             </div>
             <div class="crop-actions">
-              <button class="btn-crop-confirm" id="btnStartCrop" onclick="startCropMode()">✂️ Ativar Recorte</button>
-              <button class="btn-crop-cancel hidden" id="btnCancelCrop" onclick="cancelCropMode()">✕ Cancelar</button>
+              <button class="btn-crop-confirm" id="btnStartCrop" onclick="startCropMode()" data-tip="Ativar Recorte|Clique aqui e depois arraste sobre a imagem para selecionar a área que quer manter.">✂️ Ativar Recorte</button>
+              <button class="btn-crop-cancel hidden" id="btnCancelCrop" onclick="cancelCropMode()" data-tip="Cancelar|Descarta a seleção atual e sai do modo de recorte sem alterar a imagem.">✕ Cancelar</button>
             </div>
-            <button class="btn-crop-confirm hidden" id="btnApplyCrop" onclick="applyCrop()" style="margin-top: 0.5rem; width: 100%;">✅ Confirmar Recorte</button>
+            <button class="btn-crop-confirm hidden" id="btnApplyCrop" onclick="applyCrop()" style="margin-top: 0.5rem; width: 100%;" data-tip="Confirmar Recorte|Aplica o recorte e remove as partes de fora da seleção. Esta ação pode ser desfeita com Ctrl+Z.">✅ Confirmar Recorte</button>
           </div>
         </div>
 
@@ -1211,21 +1270,21 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
           <div class="collapsible-content active">
             <div class="resize-unit-toggle">
-              <button class="resize-unit-btn active" id="unitPx" onclick="setResizeUnit('px')">px</button>
-              <button class="resize-unit-btn" id="unitPct" onclick="setResizeUnit('%')">%</button>
+              <button class="resize-unit-btn active" id="unitPx" onclick="setResizeUnit('px')" data-tip="Pixels (px)|Defina o tamanho exato em pixels. Ex: 1920×1080 para Full HD.">px</button>
+              <button class="resize-unit-btn" id="unitPct" onclick="setResizeUnit('%')" data-tip="Porcentagem (%)|Redimensiona por proporção. Ex: 50% deixa a imagem na metade do tamanho original.">%</button>
             </div>
             <div class="resize-inputs" style="margin-top: 0.6rem;">
               <div>
                 <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 600;">Largura</div>
-                <input type="number" id="resizeW" placeholder="W" min="1" max="8000" oninput="onResizeInput('w')">
+                <input type="number" id="resizeW" placeholder="W" min="1" max="8000" oninput="onResizeInput('w')" data-tip="Largura|Digite o novo tamanho horizontal em pixels ou porcentagem.">
               </div>
-              <button class="resize-link-btn linked" id="resizeLinkBtn" onclick="toggleResizeLink()" title="Manter proporção">🔗</button>
+              <button class="resize-link-btn linked" id="resizeLinkBtn" onclick="toggleResizeLink()" title="Manter proporção" data-tip="Travar proporção|Quando ativo (🔗), ao alterar a largura a altura se ajusta automaticamente para não distorcer a imagem.">🔗</button>
               <div>
                 <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 600;">Altura</div>
                 <input type="number" id="resizeH" placeholder="H" min="1" max="8000" oninput="onResizeInput('h')">
               </div>
             </div>
-            <button class="btn-crop-confirm" onclick="applyResize()" style="margin-top: 0.75rem; width: 100%;">📐 Aplicar Resize</button>
+            <button class="btn-crop-confirm" onclick="applyResize()" style="margin-top: 0.75rem; width: 100%;" data-tip="Aplicar redimensionamento|Altera o tamanho da imagem para as dimensões digitadas. Esta ação pode ser desfeita com Ctrl+Z.">📐 Aplicar Resize</button>
           </div>
         </div>
 
@@ -1238,14 +1297,14 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content active">
             <div class="control-group">
               <div class="label-row">
-                <label>Qualidade JPG / WebP</label>
+                <label data-tip="Qualidade da imagem|Controla o equilíbrio entre qualidade visual e tamanho do arquivo. 100% = máxima qualidade (arquivo maior). 70-80% é o ponto ideal para a maioria dos usos.">Qualidade JPG / WebP</label>
                 <span id="qualityDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">92%</span>
               </div>
               <input type="range" id="exportQuality" min="10" max="100" value="92" oninput="$('qualityDisplay').textContent = this.value + '%'">
             </div>
             <div class="control-group">
               <div class="label-row">
-                <label>Formato de saída</label>
+                <label data-tip="Formato de saída|PNG = sem perda de qualidade, ideal para logos e transparência. JPG = menor tamanho, bom para fotos. WebP = moderno e compacto. AVIF = o mais eficiente, mas nem todo programa abre ainda.">Formato de saída</label>
               </div>
               <select id="exportFormat">
                 <option value="png">PNG (sem perda, transparência)</option>
@@ -1268,20 +1327,20 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
           <div class="collapsible-content active">
             <div class="rotate-btns">
-              <button class="rotate-btn" onclick="rotateImage(-90)">↺<span class="rl">90° ESQ</span></button>
-              <button class="rotate-btn" onclick="rotateImage(90)">↻<span class="rl">90° DIR</span></button>
-              <button class="rotate-btn" onclick="flipImage('h')">↔<span class="rl">HORIZ</span></button>
-              <button class="rotate-btn" onclick="flipImage('v')">↕<span class="rl">VERT</span></button>
+              <button class="rotate-btn" onclick="rotateImage(-90)" data-tip="Girar 90° para a esquerda|Vira a imagem no sentido anti-horário. Use quando a foto ficou de lado.">↺<span class="rl">90° ESQ</span></button>
+              <button class="rotate-btn" onclick="rotateImage(90)" data-tip="Girar 90° para a direita|Vira a imagem no sentido horário. Use quando a foto ficou de lado.">↻<span class="rl">90° DIR</span></button>
+              <button class="rotate-btn" onclick="flipImage('h')" data-tip="Espelhar horizontalmente|Inverte a imagem da esquerda para a direita, como se fosse um espelho.">↔<span class="rl">HORIZ</span></button>
+              <button class="rotate-btn" onclick="flipImage('v')" data-tip="Espelhar verticalmente|Inverte a imagem de cima para baixo, como um reflexo na água.">↕<span class="rl">VERT</span></button>
             </div>
             <div style="margin-top: 0.75rem;">
               <div class="label-row">
-                <label style="font-size: 0.8125rem;">Rotação livre</label>
+                <label style="font-size: 0.8125rem;" data-tip="Rotação livre|Gire a imagem em qualquer ângulo entre -180° e +180°. O preview atualiza enquanto você arrasta.">Rotação livre</label>
                 <span id="freeRotDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0°</span>
               </div>
               <input type="range" id="freeRotation" min="-180" max="180" value="0" oninput="$('freeRotDisplay').textContent=this.value+'°'; scheduleLivePreview()">
             </div>
             <div class="label-row" style="margin-top: 0.75rem;">
-              <label style="font-size: 0.8125rem;">Fundo transparente ao rotacionar</label>
+              <label style="font-size: 0.8125rem;" data-tip="Fundo transparente|Quando ativo, as bordas que aparecem ao girar ficam transparentes (sem cor). Desative para preencher com branco.">Fundo transparente ao rotacionar</label>
               <label class="toggle">
                 <input type="checkbox" id="rotTransparent" checked>
                 <span class="slider"></span>
@@ -1298,7 +1357,7 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
           <div class="collapsible-content">
             <div class="label-row" style="margin-bottom: 0.75rem;">
-              <label>Ativar</label>
+              <label data-tip="Marca d'água|Adiciona um texto ou logo sobre a imagem para identificar que ela pertence a você. Muito usado por fotógrafos e criadores de conteúdo.">Ativar</label>
               <label class="toggle">
                 <input type="checkbox" id="enableWatermark">
                 <span class="slider"></span>
@@ -1313,7 +1372,7 @@ input[type="range"]::-webkit-slider-thumb {
               <!-- Text watermark -->
               <div id="wmTextOptions">
                 <div class="control-group">
-                  <input type="text" id="wmText" placeholder="Seu texto aqui..." value="© ImageConvert Pro" style="margin-bottom: 0.5rem;">
+                  <input type="text" id="wmText" placeholder="Seu texto aqui..." value="© ImageConvert Pro" style="margin-bottom: 0.5rem;" data-tip="Texto da marca d'água|Digite o texto que aparecerá sobre a imagem. Pode ser seu nome, site, © Copyright, etc.">
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.5rem;">
                     <div>
                       <div style="font-size:0.7rem;color:var(--text-muted);font-weight:600;margin-bottom:3px;">Tamanho</div>
@@ -1344,7 +1403,7 @@ input[type="range"]::-webkit-slider-thumb {
               <!-- Shared: opacity + position -->
               <div class="control-group" style="margin-top:0.75rem;">
                 <div class="label-row">
-                  <label style="font-size:0.8rem;">Opacidade</label>
+                <label style="font-size:0.8rem;" data-tip="Opacidade da marca d'água|Controla o quanto a marca d'água é visível. 100% = totalmente visível. 30-50% é discreto mas legível.">Opacidade</label>
                   <span id="wmOpacityDisplay" style="font-size:0.75rem;font-weight:700;color:var(--primary);">70%</span>
                 </div>
                 <input type="range" id="wmOpacity" min="5" max="100" value="70" oninput="$('wmOpacityDisplay').textContent=this.value+'%'">
@@ -1363,7 +1422,7 @@ input[type="range"]::-webkit-slider-thumb {
                   <button class="wm-pos-btn active" data-pos="br" onclick="setWmPos('br',this)">↘</button>
                 </div>
               </div>
-              <button class="btn-crop-confirm" onclick="applyWatermarkNow()" style="width:100%;margin-top:0.75rem;">💧 Aplicar Marca d'água</button>
+              <button class="btn-crop-confirm" onclick="applyWatermarkNow()" style="width:100%;margin-top:0.75rem;" data-tip="Aplicar marca d'água|Adiciona o texto ou imagem sobre a foto. A ação pode ser desfeita com Ctrl+Z.">💧 Aplicar Marca d'água</button>
             </div>
           </div>
         </div>
@@ -1375,7 +1434,7 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content">
             <div class="control-group">
               <div class="label-row">
-                <label>Ativar</label>
+                <label data-tip="Remover fundo|Apaga o fundo automaticamente deixando só o objeto principal. Ótimo para logos, produtos e fotos de perfil.">Ativar</label>
                 <label class="toggle">
                   <input type="checkbox" id="enableBgRemoval" checked>
                   <span class="slider"></span>
@@ -1383,7 +1442,7 @@ input[type="range"]::-webkit-slider-thumb {
               </div>
               
               <div id="bgOptions">
-                <select id="bgMethod" style="margin-top: 0.5rem;">
+                <select id="bgMethod" style="margin-top: 0.5rem;" data-tip="Método de remoção|Fuzzy: detecta e remove a cor dominante automaticamente (melhor para a maioria dos casos). Bordas: remove pelo canto da imagem. Branco/Escuro: remove fundos de cor sólida. Personalizado: você escolhe a cor.">
                   <option value="fuzzy" selected>Fuzzy (Recomendado)</option>
                   <option value="flood">Bordas (Flood Fill)</option>
                   <option value="white">Fundo Branco</option>
@@ -1400,14 +1459,14 @@ input[type="range"]::-webkit-slider-thumb {
 
                 <div style="margin-top: 1rem;">
                   <div class="label-row">
-                    <label style="font-size: 0.75rem; color: var(--text-muted);">Tolerância</label>
+                    <label style="font-size: 0.75rem; color: var(--text-muted);" data-tip="Tolerância|Define o quanto as cores próximas ao fundo também são removidas. Valor baixo = remoção precisa. Valor alto = remove mais áreas (útil para fundos com sombras).">Tolerância</label>
                     <span id="tolDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">30</span>
                   </div>
                   <input type="range" id="tolerance" min="1" max="150" value="30">
                 </div>
 
                 <div class="label-row" style="margin-top: 1rem;">
-                  <label style="font-size: 0.8125rem;">Suavizar Bordas</label>
+                  <label style="font-size: 0.8125rem;" data-tip="Suavizar bordas|Cria uma transição suave entre o objeto e o fundo transparente. Evita bordas serrilhadas. Recomendado deixar ativado.">Suavizar Bordas</label>
                   <label class="toggle">
                     <input type="checkbox" id="smoothEdges" checked>
                     <span class="slider"></span>
@@ -1427,14 +1486,14 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="collapsible-content">
             <div class="control-group">
               <div class="label-row">
-                <label>Ativar</label>
+                <label data-tip="Vetorizar (SVG)|Converte sua imagem para o formato SVG, que pode ser ampliado infinitamente sem perder qualidade. Ideal para logos e ícones.">Ativar</label>
                 <label class="toggle">
                   <input type="checkbox" id="enableVectorize">
                   <span class="slider"></span>
                 </label>
               </div>
               <div id="vectorOptions" style="opacity: 0.4; pointer-events: none; margin-top: 0.5rem;">
-                <select id="svgScale">
+                <select id="svgScale" data-tip="Tamanho do SVG|Define o tamanho interno do arquivo vetorial. 1024px é suficiente para a maioria dos usos. Escolha 2048px se for usar em impressões grandes.">
                   <option value="512">512 px (Pequeno)</option>
                   <option value="1024" selected>1024 px (Padrão)</option>
                   <option value="2048">2048 px (Alta Res)</option>
@@ -1495,10 +1554,10 @@ input[type="range"]::-webkit-slider-thumb {
             <div style="margin-top:0.75rem;">
               <p style="font-size:0.72rem;font-weight:700;color:var(--text-muted);margin-bottom:0.4rem;">Correções rápidas:</p>
               <div style="display:flex;flex-wrap:wrap;gap:0.3rem;">
-                <button class="dpi-preset-btn" onclick="setPerspPreset('keystone-v')">Trapezoidal ↑</button>
-                <button class="dpi-preset-btn" onclick="setPerspPreset('keystone-h')">Trapezoidal →</button>
-                <button class="dpi-preset-btn" onclick="setPerspPreset('tilt-l')">Inclinar ←</button>
-                <button class="dpi-preset-btn" onclick="setPerspPreset('tilt-r')">Inclinar →</button>
+                <button class="dpi-preset-btn" onclick="setPerspPreset('keystone-v')" data-tip="Trapezoidal vertical|Corrige distorção onde o topo da imagem parece mais estreito que a base. Comum em fotos de prédios tiradas de baixo.">Trapezoidal ↑</button>
+                <button class="dpi-preset-btn" onclick="setPerspPreset('keystone-h')" data-tip="Trapezoidal horizontal|Corrige distorção onde um lado parece mais estreito que o outro. Útil para fotos de documentos ou quadros em ângulo.">Trapezoidal →</button>
+                <button class="dpi-preset-btn" onclick="setPerspPreset('tilt-l')" data-tip="Inclinar para esquerda|Aplica uma inclinação suave para a esquerda, como se a imagem estivesse levemente tombada.">Inclinar ←</button>
+                <button class="dpi-preset-btn" onclick="setPerspPreset('tilt-r')" data-tip="Inclinar para direita|Aplica uma inclinação suave para a direita, como se a imagem estivesse levemente tombada.">Inclinar →</button>
               </div>
             </div>
           </div>
@@ -1515,7 +1574,7 @@ input[type="range"]::-webkit-slider-thumb {
             <div class="meta-grid">
               <div class="meta-field">
                 <label>DPI / PPI</label>
-                <input type="number" id="metaDPI" value="72" min="1" max="1200" oninput="updatePrintSize()">
+                <input type="number" id="metaDPI" value="72" min="1" max="1200" oninput="updatePrintSize()" data-tip="DPI (pontos por polegada)|Define a resolução da imagem para impressão. Quanto maior o número, mais nítida a impressão — mas maior o arquivo.">
               </div>
               <div class="meta-field">
                 <label>Unidade</label>
@@ -1527,7 +1586,7 @@ input[type="range"]::-webkit-slider-thumb {
               </div>
               <div class="meta-field">
                 <label>Autor / Copyright</label>
-                <input type="text" id="metaAuthor" placeholder="Seu nome" style="font-size:0.78rem;">
+                <input type="text" id="metaAuthor" placeholder="Seu nome" style="font-size:0.78rem;" data-tip="Autor / Copyright|Seu nome ou empresa. Esta informação é salva nos metadados do arquivo PNG e pode ser lida por editores de imagem como Photoshop.">
               </div>
               <div class="meta-field">
                 <label>Descrição</label>
@@ -1535,11 +1594,11 @@ input[type="range"]::-webkit-slider-thumb {
               </div>
             </div>
             <div class="dpi-presets">
-              <button class="dpi-preset-btn" onclick="setDPI(72)">72 dpi (Web)</button>
-              <button class="dpi-preset-btn" onclick="setDPI(96)">96 dpi (Tela)</button>
-              <button class="dpi-preset-btn" onclick="setDPI(150)">150 dpi (Rascunho)</button>
-              <button class="dpi-preset-btn" onclick="setDPI(300)">300 dpi (Impressão)</button>
-              <button class="dpi-preset-btn" onclick="setDPI(600)">600 dpi (Pro)</button>
+              <button class="dpi-preset-btn" onclick="setDPI(72)" data-tip="72 DPI — Web|Resolução padrão para telas e sites. Arquivo menor, mas não recomendado para impressão.">72 dpi (Web)</button>
+              <button class="dpi-preset-btn" onclick="setDPI(96)" data-tip="96 DPI — Tela|Resolução para monitores Windows. Ideal para uso em apresentações e documentos digitais.">96 dpi (Tela)</button>
+              <button class="dpi-preset-btn" onclick="setDPI(150)" data-tip="150 DPI — Rascunho|Qualidade suficiente para impressões simples e rascunhos. Bom equilíbrio entre tamanho e qualidade.">150 dpi (Rascunho)</button>
+              <button class="dpi-preset-btn" onclick="setDPI(300)" data-tip="300 DPI — Impressão profissional|Padrão da indústria gráfica. Use este para imprimir fotos, cartões e materiais de qualidade.">300 dpi (Impressão)</button>
+              <button class="dpi-preset-btn" onclick="setDPI(600)" data-tip="600 DPI — Impressão de alta precisão|Para impressão de alta resolução como documentos jurídicos, selos e artes muito detalhadas.">600 dpi (Pro)</button>
             </div>
             <div class="print-size-info" id="printSizeInfo"></div>
           </div>
@@ -1579,7 +1638,7 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
         </div>
 
-        <button class="btn btn-primary" id="btnProcess" disabled style="margin-top: 1rem;">
+        <button class="btn btn-primary" id="btnProcess" disabled style="margin-top: 1rem;" data-tip="Processar imagem|Aplica todos os ajustes em qualidade máxima e gera os arquivos para download (PNG, ICO, SVG). O preview ao vivo já mostra o resultado — este botão é para exportar.">
           ⚡ Processar & Gerar ICO/SVG
         </button>
       </div>
@@ -1590,7 +1649,7 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="card-num" style="background: var(--secondary);">B</div>
           <div class="card-title">Batch — Processamento em Lote</div>
         </div>
-        <div class="batch-drop" id="batchDropZone">
+        <div class="batch-drop" id="batchDropZone" data-tip="Processamento em lote|Arraste várias imagens de uma vez! Todas serão processadas com as mesmas configurações e baixadas automaticamente. Perfeito para converter ou redimensionar muitas fotos de uma vez.">
           <span style="font-size:1.5rem;">📂</span>
           <p style="font-weight:700;margin-top:0.4rem;font-size:0.875rem;">Arraste várias imagens</p>
           <p style="font-size:0.72rem;color:var(--text-muted);margin-top:3px;">PNG, JPG, WebP, SVG — sem limite</p>
@@ -1602,7 +1661,7 @@ input[type="range"]::-webkit-slider-thumb {
         </div>
         <p id="batchSummary" style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;display:none;"></p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-          <button class="btn-crop-confirm" id="btnBatchRun" onclick="runBatch()" style="display:none;">⚡ Processar Lote</button>
+          <button class="btn-crop-confirm" id="btnBatchRun" onclick="runBatch()" style="display:none;" data-tip="Processar todas as imagens|Inicia o processamento em sequência. Cada imagem é baixada automaticamente assim que fica pronta. Não feche o navegador durante o processo.">⚡ Processar Lote</button>
           <button class="btn-crop-cancel" id="btnBatchClear" onclick="clearBatch()" style="display:none;">✕ Limpar</button>
         </div>
       </div>
@@ -1624,16 +1683,16 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
             <div class="preview-tabs">
-              <button class="preview-tab active" id="tabSingle" onclick="setPreviewMode('single')">🖼 Resultado</button>
-              <button class="preview-tab" id="tabSplit" onclick="setPreviewMode('split')">◧ Antes / Depois</button>
+              <button class="preview-tab active" id="tabSingle" onclick="setPreviewMode('single')" data-tip="Visualização única|Mostra apenas o resultado final com todos os efeitos aplicados.">🖼 Resultado</button>
+              <button class="preview-tab" id="tabSplit" onclick="setPreviewMode('split')" data-tip="Antes e depois|Divide a tela mostrando a imagem original à esquerda e o resultado à direita. Ótimo para comparar os efeitos.">◧ Antes / Depois</button>
             </div>
             <span id="resultInfo" style="color: var(--text-muted); font-weight: 400; font-size: 0.8rem;">0 x 0 px</span>
           </div>
         </div>
         <!-- Undo / Redo bar -->
         <div class="undo-bar">
-          <button class="undo-btn" id="btnUndo" onclick="doUndo()" disabled>↩ Desfazer</button>
-          <button class="undo-btn" id="btnRedo" onclick="doRedo()" disabled>Refazer ↪</button>
+          <button class="undo-btn" id="btnUndo" onclick="doUndo()" disabled data-tip="Desfazer (Ctrl+Z)|Volta a imagem ao estado anterior. Você pode desfazer até 20 ações. Funciona também com o atalho Ctrl+Z no teclado.">↩ Desfazer</button>
+          <button class="undo-btn" id="btnRedo" onclick="doRedo()" disabled data-tip="Refazer (Ctrl+Y)|Reaplicar uma ação que foi desfeita. Funciona também com Ctrl+Y ou Ctrl+Shift+Z no teclado.">Refazer ↪</button>
           <span class="undo-counter" id="undoCounter"></span>
         </div>
 
@@ -1689,7 +1748,7 @@ input[type="range"]::-webkit-slider-thumb {
 
         <!-- Visual History Strip -->
         <div class="history-strip" id="historyStrip">
-          <span class="history-empty">Histórico aparecerá aqui após processar a imagem</span>
+          <span class="history-empty" data-tip="Histórico visual|Mostra miniaturas de todas as versões da imagem. Clique em qualquer miniatura para voltar àquele estado.">Histórico aparecerá aqui após processar a imagem</span>
         </div>
       </div>
 
@@ -1699,9 +1758,9 @@ input[type="range"]::-webkit-slider-thumb {
           <div class="card-title">Download</div>
         </div>
         <div class="download-grid">
-          <button class="btn btn-outline" id="btnDownloadMain">⬇ Baixar Imagem</button>
-          <button class="btn btn-outline" id="btnDownloadIco">⬇ Baixar ICO</button>
-          <button class="btn btn-outline" id="btnDownloadSvg" disabled>⬇ Baixar SVG</button>
+          <button class="btn btn-outline" id="btnDownloadMain" data-tip="Baixar imagem|Salva a imagem editada no formato escolhido (PNG, JPG, WebP ou AVIF) com a qualidade configurada.">⬇ Baixar Imagem</button>
+          <button class="btn btn-outline" id="btnDownloadIco" data-tip="Baixar ICO|Salva como ícone no formato .ico com 6 tamanhos embutidos (16 a 256px). Usado como favicon de sites e ícone de programas.">⬇ Baixar ICO</button>
+          <button class="btn btn-outline" id="btnDownloadSvg" disabled data-tip="Baixar SVG|Salva como vetor que pode ser ampliado infinitamente sem perder qualidade. Ative a opção Vetorizar para habilitar.">⬇ Baixar SVG</button>
         </div>
         <div id="icoArea" class="hidden">
           <div class="ico-grid" id="sizesGrid"></div>
@@ -2694,6 +2753,94 @@ async function detectFormatSupport() {
   if(avifOpt&&!support.avif){avifOpt.textContent='AVIF (não suportado neste browser)'; avifOpt.disabled=true;}
 }
 detectFormatSupport();
+
+// ── TOOLTIP ENGINE ────────────────────────────────────────
+(function() {
+  const tip = document.getElementById('icp-tooltip');
+  if (!tip) return;
+  let hideTimer = null;
+
+  function buildHTML(raw) {
+    const pipe = raw.indexOf('|');
+    if (pipe === -1) return '<span style="font-size:0.78rem;">' + raw + '</span>';
+    const title = raw.slice(0, pipe);
+    const body  = raw.slice(pipe + 1);
+    return '<strong>' + title + '</strong>' + body;
+  }
+
+  function showTip(el) {
+    const raw = el.getAttribute('data-tip');
+    if (!raw) return;
+    clearTimeout(hideTimer);
+
+    tip.innerHTML = buildHTML(raw);
+    tip.classList.remove('visible', 'tip-above');
+
+    // Measure
+    tip.style.visibility = 'hidden';
+    tip.style.display = 'block';
+    const tw = tip.offsetWidth || 240;
+    const th = tip.offsetHeight || 80;
+    tip.style.visibility = '';
+
+    const MARGIN = 10;
+    const rect = el.getBoundingClientRect();
+    let left = rect.left;
+    let top  = rect.bottom + MARGIN;
+
+    // Flip above if not enough room below
+    if (top + th > window.innerHeight - 16) {
+      top = rect.top - th - MARGIN;
+      tip.classList.add('tip-above');
+    }
+    // Keep within horizontal bounds
+    if (left + tw > window.innerWidth - 12) left = window.innerWidth - tw - 12;
+    if (left < 8) left = 8;
+
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+    tip.classList.add('visible');
+  }
+
+  function hideTip() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      tip.classList.remove('visible');
+    }, 120);
+  }
+
+  // Mouse events
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tip]');
+    if (el) showTip(el);
+    else hideTip();
+  });
+
+  document.addEventListener('mouseout', e => {
+    const to = e.relatedTarget;
+    if (!to || !to.closest('[data-tip]')) hideTip();
+  });
+
+  // Hide on scroll/resize
+  document.addEventListener('scroll', () => tip.classList.remove('visible'), true);
+  window.addEventListener('resize', () => tip.classList.remove('visible'));
+
+  // Touch: tap to toggle
+  document.addEventListener('touchstart', e => {
+    const el = e.target.closest('[data-tip]');
+    if (el) {
+      if (tip.classList.contains('visible') && tip._lastEl === el) {
+        tip.classList.remove('visible');
+      } else {
+        showTip(el);
+        tip._lastEl = el;
+      }
+    } else {
+      tip.classList.remove('visible');
+    }
+  }, { passive: true });
+})();
+
 </script>
 </body>
 </html>
