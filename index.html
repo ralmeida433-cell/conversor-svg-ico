@@ -2164,13 +2164,20 @@ function updateDownloadLabel() {
 }
 $('exportFormat').addEventListener('change', updateDownloadLabel);
 
-// Also update estimated size after full processing
+// Update estimated size after full processing — patch into existing btnProcess
 const _origBtnProcess = $('btnProcess').onclick;
 $('btnProcess').onclick = async function() {
-  await _origBtnProcess.call(this);
+  if (_origBtnProcess) await _origBtnProcess.call(this);
   updateEstimatedSize();
   updateResizeInputs();
 };
 
+function triggerDownload(url, name) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.click();
+}
+</script>
 </body>
 </html>
