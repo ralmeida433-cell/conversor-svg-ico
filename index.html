@@ -837,6 +837,129 @@ input[type="range"]::-webkit-slider-thumb {
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 0.75rem;
 }
+
+/* ── Rotation buttons ── */
+.rotate-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.4rem;
+}
+.rotate-btn {
+  padding: 0.5rem 0.3rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text-main);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+}
+.rotate-btn span.rl { font-size: 0.6rem; color: var(--text-muted); font-weight: 700; }
+.rotate-btn:hover { border-color: var(--primary); background: rgba(99,102,241,0.08); }
+
+/* ── Watermark ── */
+.watermark-tabs {
+  display: flex; gap: 0.25rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 3px;
+  margin-bottom: 0.75rem;
+}
+.wm-tab {
+  flex: 1; padding: 0.3rem;
+  border-radius: 6px; border: none;
+  background: transparent; color: var(--text-muted);
+  font-size: 0.72rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.wm-tab.active {
+  background: var(--surface); color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+.wm-position-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px; margin-top: 0.5rem;
+}
+.wm-pos-btn {
+  aspect-ratio: 1; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  cursor: pointer; font-size: 0.6rem;
+  display: flex; align-items: center;
+  justify-content: center; transition: all 0.15s;
+  color: var(--text-muted); font-weight: 700;
+  font-family: inherit;
+}
+.wm-pos-btn.active, .wm-pos-btn:hover {
+  border-color: var(--primary);
+  background: rgba(99,102,241,0.1);
+  color: var(--primary);
+}
+
+/* ── Undo/Redo toolbar ── */
+.undo-bar {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+.undo-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 7px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-main);
+  font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.undo-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.undo-btn:not(:disabled):hover { border-color: var(--primary); color: var(--primary); }
+.undo-counter {
+  font-size: 0.7rem; color: var(--text-muted);
+  font-weight: 600; margin-left: auto;
+}
+
+/* ── Batch ── */
+.batch-drop {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--surface-alt);
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+.batch-drop:hover { border-color: var(--primary); background: rgba(99,102,241,0.04); }
+.batch-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.batch-file-list {
+  max-height: 160px; overflow-y: auto;
+  border: 1px solid var(--border); border-radius: 8px;
+  margin-bottom: 0.75rem; display: none;
+}
+.batch-file-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--border); font-size: 0.78rem;
+}
+.batch-file-item:last-child { border-bottom: none; }
+.batch-file-item .bfi-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-main); }
+.batch-file-item .bfi-status { font-size: 0.7rem; font-weight: 700; margin-left: 0.5rem; }
+.bfi-status.done { color: var(--success); }
+.bfi-status.error { color: var(--error); }
+.bfi-status.pending { color: var(--text-muted); }
+.bfi-status.processing { color: var(--primary); }
+.batch-progress {
+  height: 6px; background: var(--border);
+  border-radius: 3px; overflow: hidden; margin-bottom: 0.5rem; display: none;
+}
+.batch-progress-bar {
+  height: 100%; background: var(--primary);
+  border-radius: 3px; transition: width 0.3s; width: 0%;
+}
 </style>
 </head>
 <body>
@@ -1049,7 +1172,113 @@ input[type="range"]::-webkit-slider-thumb {
           </div>
         </div>
 
-        <!-- Seção: Remoção de Fundo -->
+        <!-- Seção: Rotação & Espelhamento -->
+        <div class="collapsible-section">
+          <div class="collapsible-header" onclick="toggleSection(this)">
+            🔄 Rotação & Espelhamento
+            <span style="font-size: 1rem;">▼</span>
+          </div>
+          <div class="collapsible-content active">
+            <div class="rotate-btns">
+              <button class="rotate-btn" onclick="rotateImage(-90)">↺<span class="rl">90° ESQ</span></button>
+              <button class="rotate-btn" onclick="rotateImage(90)">↻<span class="rl">90° DIR</span></button>
+              <button class="rotate-btn" onclick="flipImage('h')">↔<span class="rl">HORIZ</span></button>
+              <button class="rotate-btn" onclick="flipImage('v')">↕<span class="rl">VERT</span></button>
+            </div>
+            <div style="margin-top: 0.75rem;">
+              <div class="label-row">
+                <label style="font-size: 0.8125rem;">Rotação livre</label>
+                <span id="freeRotDisplay" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0°</span>
+              </div>
+              <input type="range" id="freeRotation" min="-180" max="180" value="0" oninput="$('freeRotDisplay').textContent=this.value+'°'; scheduleLivePreview()">
+            </div>
+            <div class="label-row" style="margin-top: 0.75rem;">
+              <label style="font-size: 0.8125rem;">Fundo transparente ao rotacionar</label>
+              <label class="toggle">
+                <input type="checkbox" id="rotTransparent" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Marca d'água -->
+        <div class="collapsible-section">
+          <div class="collapsible-header" onclick="toggleSection(this)">
+            💧 Marca d'água
+            <span style="font-size: 1rem;">▼</span>
+          </div>
+          <div class="collapsible-content">
+            <div class="label-row" style="margin-bottom: 0.75rem;">
+              <label>Ativar</label>
+              <label class="toggle">
+                <input type="checkbox" id="enableWatermark">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div id="wmOptions" style="opacity:0.4; pointer-events:none;">
+              <div class="watermark-tabs">
+                <button class="wm-tab active" id="wmTabText" onclick="setWmTab('text')">✏️ Texto</button>
+                <button class="wm-tab" id="wmTabImage" onclick="setWmTab('image')">🖼 Imagem</button>
+              </div>
+
+              <!-- Text watermark -->
+              <div id="wmTextOptions">
+                <div class="control-group">
+                  <input type="text" id="wmText" placeholder="Seu texto aqui..." value="© ImageConvert Pro" style="margin-bottom: 0.5rem;">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.5rem;">
+                    <div>
+                      <div style="font-size:0.7rem;color:var(--text-muted);font-weight:600;margin-bottom:3px;">Tamanho</div>
+                      <input type="number" id="wmFontSize" value="36" min="8" max="200" style="width:100%;padding:0.4rem 0.6rem;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:0.8rem;color:var(--text-main);background:var(--surface);">
+                    </div>
+                    <div>
+                      <div style="font-size:0.7rem;color:var(--text-muted);font-weight:600;margin-bottom:3px;">Cor</div>
+                      <input type="color" id="wmColor" value="#ffffff" style="width:100%;height:34px;padding:2px;border:1px solid var(--border);border-radius:6px;cursor:pointer;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image watermark -->
+              <div id="wmImageOptions" class="hidden">
+                <div class="batch-drop" style="padding:1rem;" onclick="$('wmImageInput').click()">
+                  <p style="font-size:0.8rem;font-weight:600;">Clique para carregar logo/imagem</p>
+                  <p id="wmImageName" style="font-size:0.7rem;color:var(--text-muted);margin-top:4px;">Nenhuma imagem</p>
+                  <input type="file" id="wmImageInput" accept="image/*" style="display:none" onchange="loadWmImage(this)">
+                </div>
+                <div class="label-row">
+                  <label style="font-size:0.8rem;">Tamanho (%)</label>
+                  <span id="wmImgSizeDisplay" style="font-size:0.75rem;font-weight:700;color:var(--primary);">20%</span>
+                </div>
+                <input type="range" id="wmImgSize" min="5" max="80" value="20" oninput="$('wmImgSizeDisplay').textContent=this.value+'%'">
+              </div>
+
+              <!-- Shared: opacity + position -->
+              <div class="control-group" style="margin-top:0.75rem;">
+                <div class="label-row">
+                  <label style="font-size:0.8rem;">Opacidade</label>
+                  <span id="wmOpacityDisplay" style="font-size:0.75rem;font-weight:700;color:var(--primary);">70%</span>
+                </div>
+                <input type="range" id="wmOpacity" min="5" max="100" value="70" oninput="$('wmOpacityDisplay').textContent=this.value+'%'">
+              </div>
+              <div>
+                <div style="font-size:0.8rem;font-weight:600;margin-bottom:0.4rem;">Posição</div>
+                <div class="wm-position-grid" id="wmPositionGrid">
+                  <button class="wm-pos-btn" data-pos="tl" onclick="setWmPos('tl',this)">↖</button>
+                  <button class="wm-pos-btn" data-pos="tc" onclick="setWmPos('tc',this)">↑</button>
+                  <button class="wm-pos-btn" data-pos="tr" onclick="setWmPos('tr',this)">↗</button>
+                  <button class="wm-pos-btn" data-pos="ml" onclick="setWmPos('ml',this)">←</button>
+                  <button class="wm-pos-btn active" data-pos="mc" onclick="setWmPos('mc',this)">·</button>
+                  <button class="wm-pos-btn" data-pos="mr" onclick="setWmPos('mr',this)">→</button>
+                  <button class="wm-pos-btn" data-pos="bl" onclick="setWmPos('bl',this)">↙</button>
+                  <button class="wm-pos-btn" data-pos="bc" onclick="setWmPos('bc',this)">↓</button>
+                  <button class="wm-pos-btn active" data-pos="br" onclick="setWmPos('br',this)">↘</button>
+                </div>
+              </div>
+              <button class="btn-crop-confirm" onclick="applyWatermarkNow()" style="width:100%;margin-top:0.75rem;">💧 Aplicar Marca d'água</button>
+            </div>
+          </div>
+        </div>
         <div class="collapsible-section">
           <div class="collapsible-header" onclick="toggleSection(this)">
             🎯 Remover Fundo
@@ -1131,6 +1360,29 @@ input[type="range"]::-webkit-slider-thumb {
           ⚡ Processar & Gerar ICO/SVG
         </button>
       </div>
+
+      <!-- Batch card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-num" style="background: var(--secondary);">B</div>
+          <div class="card-title">Batch — Processamento em Lote</div>
+        </div>
+        <div class="batch-drop" id="batchDropZone">
+          <span style="font-size:1.5rem;">📂</span>
+          <p style="font-weight:700;margin-top:0.4rem;font-size:0.875rem;">Arraste várias imagens</p>
+          <p style="font-size:0.72rem;color:var(--text-muted);margin-top:3px;">PNG, JPG, WebP, SVG — sem limite</p>
+          <input type="file" id="batchInput" accept="image/*" multiple>
+        </div>
+        <div class="batch-file-list" id="batchFileList"></div>
+        <div class="batch-progress" id="batchProgress">
+          <div class="batch-progress-bar" id="batchProgressBar"></div>
+        </div>
+        <p id="batchSummary" style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.5rem;display:none;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <button class="btn-crop-confirm" id="btnBatchRun" onclick="runBatch()" style="display:none;">⚡ Processar Lote</button>
+          <button class="btn-crop-cancel" id="btnBatchClear" onclick="clearBatch()" style="display:none;">✕ Limpar</button>
+        </div>
+      </div>
     </aside>
 
     <main class="main-content">
@@ -1147,15 +1399,19 @@ input[type="range"]::-webkit-slider-thumb {
               <span class="live-dot"></span>LIVE
             </span>
           </div>
-
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-            <!-- View mode tabs -->
             <div class="preview-tabs">
               <button class="preview-tab active" id="tabSingle" onclick="setPreviewMode('single')">🖼 Resultado</button>
               <button class="preview-tab" id="tabSplit" onclick="setPreviewMode('split')">◧ Antes / Depois</button>
             </div>
             <span id="resultInfo" style="color: var(--text-muted); font-weight: 400; font-size: 0.8rem;">0 x 0 px</span>
           </div>
+        </div>
+        <!-- Undo / Redo bar -->
+        <div class="undo-bar">
+          <button class="undo-btn" id="btnUndo" onclick="doUndo()" disabled>↩ Desfazer</button>
+          <button class="undo-btn" id="btnRedo" onclick="doRedo()" disabled>Refazer ↪</button>
+          <span class="undo-counter" id="undoCounter"></span>
         </div>
 
         <!-- Single mode -->
@@ -2171,6 +2427,398 @@ $('btnProcess').onclick = async function() {
   updateEstimatedSize();
   updateResizeInputs();
 };
+
+// ── UNDO / REDO ──────────────────────────────────────────
+const HISTORY_MAX = 20;
+let history = [];   // array of ImageData snapshots
+let historyIndex = -1;
+
+function historySave() {
+  if (!processedCanvas) return;
+  // Truncate forward history
+  history = history.slice(0, historyIndex + 1);
+  // Save snapshot
+  const snap = processedCanvas.getContext('2d').getImageData(0, 0, processedCanvas.width, processedCanvas.height);
+  snap._w = processedCanvas.width;
+  snap._h = processedCanvas.height;
+  history.push(snap);
+  if (history.length > HISTORY_MAX) history.shift();
+  historyIndex = history.length - 1;
+  updateUndoUI();
+}
+
+function doUndo() {
+  if (historyIndex <= 0) return;
+  historyIndex--;
+  restoreSnapshot(history[historyIndex]);
+}
+
+function doRedo() {
+  if (historyIndex >= history.length - 1) return;
+  historyIndex++;
+  restoreSnapshot(history[historyIndex]);
+}
+
+function restoreSnapshot(snap) {
+  const rc = $('canvasResult');
+  rc.width = snap._w; rc.height = snap._h;
+  rc.getContext('2d').putImageData(snap, 0, 0);
+  processedCanvas = rc;
+  $('resultInfo').textContent = `${snap._w} x ${snap._h} px`;
+  if (previewMode === 'split') drawAfterFromProcessed();
+  updateUndoUI();
+}
+
+function updateUndoUI() {
+  $('btnUndo').disabled = historyIndex <= 0;
+  $('btnRedo').disabled = historyIndex >= history.length - 1;
+  $('undoCounter').textContent = history.length > 1
+    ? `${historyIndex + 1} / ${history.length}`
+    : '';
+}
+
+// Keyboard shortcut Ctrl+Z / Ctrl+Y
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') { e.preventDefault(); doUndo(); }
+  if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); doRedo(); }
+});
+
+// Auto-save history after live preview completes
+const _origRunLive = runLivePreview;
+async function runLivePreviewWithHistory() {
+  await _origRunLive();
+  // Don't spam history on every slider tick — only save after mouseup/touchend
+}
+// Save on mouseup from sliders
+document.addEventListener('mouseup', () => {
+  if (origImage && processedCanvas) historySave();
+});
+
+// ── ROTATION & FLIP ───────────────────────────────────────
+let freeRotationDeg = 0;
+
+function rotateImage(deg) {
+  if (!processedCanvas) { setStatus('Carregue uma imagem primeiro.', 'error'); return; }
+  const src = processedCanvas;
+  const rad = deg * Math.PI / 180;
+  const abs = Math.abs;
+  const nw = Math.round(abs(src.width * Math.cos(rad)) + abs(src.height * Math.sin(rad)));
+  const nh = Math.round(abs(src.width * Math.sin(rad)) + abs(src.height * Math.cos(rad)));
+
+  const tmp = document.createElement('canvas');
+  tmp.width = nw; tmp.height = nh;
+  const ctx = tmp.getContext('2d');
+  if (!$('rotTransparent').checked) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, nw, nh); }
+  ctx.translate(nw / 2, nh / 2);
+  ctx.rotate(rad);
+  ctx.drawImage(src, -src.width / 2, -src.height / 2);
+
+  applyCanvasResult(tmp);
+  setStatus(`Rotacionado ${deg > 0 ? deg + '° direita' : Math.abs(deg) + '° esquerda'}`, 'success');
+  historySave();
+}
+
+function flipImage(axis) {
+  if (!processedCanvas) { setStatus('Carregue uma imagem primeiro.', 'error'); return; }
+  const src = processedCanvas;
+  const tmp = document.createElement('canvas');
+  tmp.width = src.width; tmp.height = src.height;
+  const ctx = tmp.getContext('2d');
+  if (axis === 'h') { ctx.translate(src.width, 0); ctx.scale(-1, 1); }
+  else              { ctx.translate(0, src.height); ctx.scale(1, -1); }
+  ctx.drawImage(src, 0, 0);
+  applyCanvasResult(tmp);
+  setStatus(`Espelhado ${axis === 'h' ? 'horizontalmente' : 'verticalmente'}`, 'success');
+  historySave();
+}
+
+function applyCanvasResult(tmpCanvas) {
+  const rc = $('canvasResult');
+  rc.width = tmpCanvas.width; rc.height = tmpCanvas.height;
+  rc.getContext('2d').drawImage(tmpCanvas, 0, 0);
+  processedCanvas = rc;
+  $('resultInfo').textContent = `${rc.width} x ${rc.height} px`;
+  if (previewMode === 'split') drawAfterFromProcessed();
+  updateResizeInputs();
+}
+
+// Free rotation integrates into live preview
+const _origBuild = buildProcessedCanvas;
+async function buildProcessedCanvas(fullQuality = true) {
+  const result = await _origBuild(fullQuality);
+  const deg = parseInt($('freeRotation').value);
+  if (deg === 0) return result;
+  const rad = deg * Math.PI / 180;
+  const abs = Math.abs;
+  const nw = Math.round(abs(result.width * Math.cos(rad)) + abs(result.height * Math.sin(rad)));
+  const nh = Math.round(abs(result.width * Math.sin(rad)) + abs(result.height * Math.cos(rad)));
+  const tmp = document.createElement('canvas');
+  tmp.width = nw; tmp.height = nh;
+  const ctx = tmp.getContext('2d');
+  if (!$('rotTransparent').checked) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, nw, nh); }
+  ctx.translate(nw / 2, nh / 2);
+  ctx.rotate(rad);
+  ctx.drawImage(result, -result.width / 2, -result.height / 2);
+  return tmp;
+}
+
+// ── WATERMARK ─────────────────────────────────────────────
+let wmTab = 'text';
+let wmPosition = 'br';
+let wmImage = null;
+
+$('enableWatermark').onchange = () => {
+  const on = $('enableWatermark').checked;
+  $('wmOptions').style.opacity = on ? 1 : 0.4;
+  $('wmOptions').style.pointerEvents = on ? 'auto' : 'none';
+};
+
+function setWmTab(tab) {
+  wmTab = tab;
+  $('wmTabText').classList.toggle('active', tab === 'text');
+  $('wmTabImage').classList.toggle('active', tab === 'image');
+  $('wmTextOptions').classList.toggle('hidden', tab !== 'text');
+  $('wmImageOptions').classList.toggle('hidden', tab !== 'image');
+}
+
+function setWmPos(pos, btn) {
+  wmPosition = pos;
+  document.querySelectorAll('.wm-pos-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function loadWmImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    wmImage = new Image();
+    wmImage.onload = () => $('wmImageName').textContent = file.name;
+    wmImage.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function getWmCoords(cw, ch, wmW, wmH) {
+  const pad = 20;
+  const map = {
+    tl: [pad, pad],
+    tc: [cw/2 - wmW/2, pad],
+    tr: [cw - wmW - pad, pad],
+    ml: [pad, ch/2 - wmH/2],
+    mc: [cw/2 - wmW/2, ch/2 - wmH/2],
+    mr: [cw - wmW - pad, ch/2 - wmH/2],
+    bl: [pad, ch - wmH - pad],
+    bc: [cw/2 - wmW/2, ch - wmH - pad],
+    br: [cw - wmW - pad, ch - wmH - pad],
+  };
+  return map[wmPosition] || map.br;
+}
+
+function applyWatermarkNow() {
+  if (!processedCanvas) { setStatus('Processe uma imagem primeiro.', 'error'); return; }
+  const tmp = document.createElement('canvas');
+  tmp.width = processedCanvas.width; tmp.height = processedCanvas.height;
+  const ctx = tmp.getContext('2d');
+  ctx.drawImage(processedCanvas, 0, 0);
+  const opacity = parseInt($('wmOpacity').value) / 100;
+  ctx.globalAlpha = opacity;
+
+  if (wmTab === 'text') {
+    const text = $('wmText').value || 'Watermark';
+    const size = parseInt($('wmFontSize').value) || 36;
+    const color = $('wmColor').value;
+    ctx.font = `bold ${size}px Plus Jakarta Sans, sans-serif`;
+    ctx.fillStyle = color;
+    ctx.textBaseline = 'top';
+    const metrics = ctx.measureText(text);
+    const tw = metrics.width, th = size * 1.2;
+    const [x, y] = getWmCoords(tmp.width, tmp.height, tw, th);
+    // Shadow for readability
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 4;
+    ctx.fillText(text, x, y);
+    ctx.shadowBlur = 0;
+  } else {
+    if (!wmImage) { setStatus('Carregue uma imagem para a marca d\'água.', 'error'); return; }
+    const pct = parseInt($('wmImgSize').value) / 100;
+    const wmW = Math.round(tmp.width * pct);
+    const wmH = Math.round(wmW * (wmImage.height / wmImage.width));
+    const [x, y] = getWmCoords(tmp.width, tmp.height, wmW, wmH);
+    ctx.drawImage(wmImage, x, y, wmW, wmH);
+  }
+  ctx.globalAlpha = 1;
+  applyCanvasResult(tmp);
+  setStatus('Marca d\'água aplicada!', 'success');
+  historySave();
+}
+
+// ── BATCH PROCESSING ──────────────────────────────────────
+let batchFiles = [];
+
+const batchDropZone = $('batchDropZone');
+batchDropZone.addEventListener('dragover', e => { e.preventDefault(); batchDropZone.style.borderColor = 'var(--primary)'; });
+batchDropZone.addEventListener('dragleave', () => { batchDropZone.style.borderColor = ''; });
+batchDropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  batchDropZone.style.borderColor = '';
+  const files = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+  addBatchFiles(files);
+});
+$('batchInput').onchange = e => addBatchFiles([...e.target.files]);
+
+function addBatchFiles(files) {
+  batchFiles = [...batchFiles, ...files];
+  renderBatchList();
+  $('batchFileList').style.display = 'block';
+  $('btnBatchRun').style.display = 'block';
+  $('btnBatchClear').style.display = 'block';
+  $('batchSummary').style.display = 'block';
+  $('batchSummary').textContent = `${batchFiles.length} imagem(ns) na fila`;
+}
+
+function renderBatchList() {
+  const list = $('batchFileList');
+  list.innerHTML = batchFiles.map((f, i) =>
+    `<div class="batch-file-item" id="bfi-${i}">
+      <span class="bfi-name">${f.name}</span>
+      <span class="bfi-status pending" id="bfi-status-${i}">aguardando</span>
+    </div>`
+  ).join('');
+}
+
+function clearBatch() {
+  batchFiles = [];
+  $('batchFileList').innerHTML = '';
+  $('batchFileList').style.display = 'none';
+  $('batchProgress').style.display = 'none';
+  $('batchProgressBar').style.width = '0%';
+  $('btnBatchRun').style.display = 'none';
+  $('btnBatchClear').style.display = 'none';
+  $('batchSummary').style.display = 'none';
+  $('batchInput').value = '';
+}
+
+async function runBatch() {
+  if (!batchFiles.length) return;
+  $('btnBatchRun').disabled = true;
+  $('batchProgress').style.display = 'block';
+  $('batchProgressBar').style.width = '0%';
+
+  const fmt = $('exportFormat').value;
+  const q = parseInt($('exportQuality').value) / 100;
+  const mime = fmt === 'webp' ? 'image/webp' : fmt === 'jpeg' ? 'image/jpeg' : 'image/png';
+  const ext = fmt === 'webp' ? 'webp' : fmt === 'jpeg' ? 'jpg' : 'png';
+  const upscale = parseFloat($('upscaleFactor').value);
+  const removeBg = $('enableBgRemoval').checked;
+  const sharpVal = parseInt($('sharpness').value) / 100;
+
+  let done = 0;
+
+  for (let i = 0; i < batchFiles.length; i++) {
+    const statusEl = $(`bfi-status-${i}`);
+    statusEl.className = 'bfi-status processing';
+    statusEl.textContent = '⏳ processando';
+
+    try {
+      const dataUrl = await readFileAsDataURL(batchFiles[i]);
+      const img = await loadImage(dataUrl);
+
+      const tw = Math.round(img.width * upscale);
+      const th = Math.round(img.height * upscale);
+      const off = document.createElement('canvas');
+      off.width = tw; off.height = th;
+      const octx = off.getContext('2d');
+      octx.imageSmoothingEnabled = true;
+      octx.imageSmoothingQuality = 'high';
+      octx.drawImage(img, 0, 0, tw, th);
+
+      // Temporarily set origImage for processing functions that read it
+      const savedOrig = origImage;
+      origImage = img;
+      applyColorAdjustments(octx, tw, th);
+      if (filterState.filter) applyImageFilter(octx, tw, th, filterState.filter);
+      if (sharpVal > 0) applySharpen(octx, tw, th, sharpVal);
+      if (removeBg) removeBackground(octx, tw, th);
+      origImage = savedOrig;
+
+      // Watermark
+      if ($('enableWatermark').checked) {
+        const wctx = off.getContext('2d');
+        const opacity = parseInt($('wmOpacity').value) / 100;
+        wctx.globalAlpha = opacity;
+        if (wmTab === 'text') {
+          const text = $('wmText').value || 'Watermark';
+          const size = parseInt($('wmFontSize').value) || 36;
+          wctx.font = `bold ${size}px Plus Jakarta Sans, sans-serif`;
+          wctx.fillStyle = $('wmColor').value;
+          wctx.textBaseline = 'top';
+          const tw2 = wctx.measureText(text).width;
+          const [x, y] = getWmCoords(off.width, off.height, tw2, size * 1.2);
+          wctx.shadowColor = 'rgba(0,0,0,0.5)'; wctx.shadowBlur = 4;
+          wctx.fillText(text, x, y);
+          wctx.shadowBlur = 0;
+        } else if (wmImage) {
+          const pct = parseInt($('wmImgSize').value) / 100;
+          const wmW = Math.round(off.width * pct);
+          const wmH = Math.round(wmW * (wmImage.height / wmImage.width));
+          const [x, y] = getWmCoords(off.width, off.height, wmW, wmH);
+          wctx.drawImage(wmImage, x, y, wmW, wmH);
+        }
+        wctx.globalAlpha = 1;
+      }
+
+      // Download
+      const baseName = batchFiles[i].name.replace(/\.[^.]+$/, '');
+      await new Promise(resolve => {
+        let src = off;
+        if (fmt === 'jpeg') {
+          const flat = document.createElement('canvas');
+          flat.width = off.width; flat.height = off.height;
+          const fc = flat.getContext('2d');
+          fc.fillStyle = '#fff'; fc.fillRect(0, 0, flat.width, flat.height);
+          fc.drawImage(off, 0, 0); src = flat;
+        }
+        src.toBlob(blob => {
+          triggerDownload(URL.createObjectURL(blob), `${baseName}_converted.${ext}`);
+          resolve();
+        }, mime, q);
+      });
+
+      statusEl.className = 'bfi-status done';
+      statusEl.textContent = '✓ ok';
+    } catch (err) {
+      statusEl.className = 'bfi-status error';
+      statusEl.textContent = '✗ erro';
+    }
+
+    done++;
+    $('batchProgressBar').style.width = `${(done / batchFiles.length) * 100}%`;
+    $('batchSummary').textContent = `${done} / ${batchFiles.length} concluídas`;
+    await new Promise(r => setTimeout(r, 80)); // small pause between downloads
+  }
+
+  $('btnBatchRun').disabled = false;
+  setStatus(`Lote concluído! ${done} imagem(ns) processada(s).`, 'success');
+}
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
 
 function triggerDownload(url, name) {
   const a = document.createElement('a');
