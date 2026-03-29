@@ -35,8 +35,19 @@
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
+# Allow public access to ads.txt, robots.txt and sitemap.xml
+<Files ~ "^(ads\.txt|robots\.txt|sitemap\.xml)$">
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+</Files>
+
 # Block access to sensitive files
-<FilesMatch "^(\.|wp-config\.php|readme\.html|license\.txt|robots\.txt|sitemap\.xml)">
+<FilesMatch "^(\.|wp-config\.php|readme\.html|license\.txt)">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
