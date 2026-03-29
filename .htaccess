@@ -36,7 +36,7 @@
 </IfModule>
 
 # Block access to sensitive files
-<FilesMatch "^(\.|wp-config\.php|readme\.html|license\.txt|ads\.txt|robots\.txt|sitemap\.xml)">
+<FilesMatch "^(\.|wp-config\.php|readme\.html|license\.txt|robots\.txt|sitemap\.xml)">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
